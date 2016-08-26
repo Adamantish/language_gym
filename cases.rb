@@ -104,7 +104,7 @@ class Article
   end
 
   def decorated_article
-    "#{self.class::ARTICLE_ROOT}#{flexi_decorator}"
+    "#{self.class::ARTICLE_ROOT}#{flexi_decorator}" if self.class::ARTICLE_ROOT
   end
 
   def decorated_adj
@@ -128,7 +128,7 @@ end
 # -------------------------------------------------------------------------
 
 class A < Article
-  ARTICLE_ROOT = 'ein'.freeze
+  ARTICLE_ROOT = 'ein'
 
   def flexi_decorators
     MixedGrid.decorators
@@ -137,8 +137,14 @@ end
 
 # -------------------------------------------------------------------------
 
+class NoArticle < A
+  ARTICLE_ROOT = nil
+end
+
+# -------------------------------------------------------------------------
+
 class The < Article
-  ARTICLE_ROOT = 'd'.freeze
+  ARTICLE_ROOT = 'd'
 
   def flexi_decorators
     StrongGrid.decorators.map do |row|
@@ -172,6 +178,12 @@ para 'Now let\'s stick an adjective in there'
   puts A.new(1).adj('furchtbar').noun('Schlips', 1)
   puts A.new(2).adj('furchtbar').noun('Schlips', 1)
   puts A.new(3).adj('furchtbar').noun('Schlips', 1)
+
+para 'Should be similar when there is no article'
+
+  puts NoArticle.new(1).adj('furchtbar').noun('Schlips', 1)
+  puts NoArticle.new(2).adj('furchtbar').noun('Schlips', 1)
+  puts NoArticle.new(3).adj('furchtbar').noun('Schlips', 1)
 
 para 'If the noun is already in the dictionary you don\'t need to specify the gender.'
 
