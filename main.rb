@@ -156,6 +156,11 @@ end
 
 
 # --------------- Say Stuff! ---------------------------------------------------
+
+def puts(string)
+  super string.to_s.capitalize
+end
+
 def para (text)
   puts "\n#{text}\n"
 end
