@@ -1,8 +1,23 @@
 # require 'pry'
 # --------------- GRIDS ---------------------------------------------------
-
-class StrongGrid
+class Grid
   class << self
+    def decorator(gender_ref, case_ref)
+      decorators[case_ref - 1][gender_ref - 1]
+    end
+  end
+end
+
+# -------------------------------------------------------------------------
+
+class StrongGrid < Grid
+  class << self
+    def key_letters
+      [ ['r', 's', 'e', 'e'],
+        ['n', 's', 'e', 'e'],
+        ['m', 'm', 'r', 'n'] ]
+    end
+
     def decorators
       [ ['er', 'es', 'e',  'e'],
         ['en', 'es', 'e',  'e'],
@@ -13,7 +28,7 @@ end
 
 # -------------------------------------------------------------------------
 
-class WeakGrid
+class WeakGrid < Grid
   class << self
     def decorators
       [ ['e',  'e',  'e',  'en'],
@@ -60,15 +75,14 @@ end
 
 class Article
   def initialize(case_ref)
-    @case_id = case_ref - 1
+    @case_ref = case_ref
   end
 
   def noun(literal, gender_ref = nil)
     @noun_literal = literal
-    @gender_id = gender_ref
-    @gender_id ||= Noun.gender(literal)
-    raise ArgumentError, 'I don\'t know that noun so you need to tell me the gender.' unless @gender_id
-    @gender_id -= 1
+    @gender_ref = gender_ref
+    @gender_ref ||= Noun.gender(literal)
+    raise ArgumentError, 'I don\'t know that noun so you need to tell me the gender.' unless @gender_ref
     self
   end
 
@@ -78,19 +92,20 @@ class Article
   end
 
   def strong_decorator
-    StrongGrid.decorators[@case_id][@gender_id]
+    StrongGrid.decorator(@gender_ref, @case_ref)
   end
 
   def weak_decorator
-    WeakGrid.decorators[@case_id][@gender_id]
+    WeakGrid.decorator(@gender_ref, @case_ref)
   end
 
-  def maybe_strong_decorator
-    maybe_strong_decorators[@case_id][@gender_id]
+  def flexi_decorator
+    # Refactor into FlexiGrid object
+    flexi_decorators[@case_ref - 1][@gender_ref - 1]
   end
 
   def decorated_article
-    "#{self.class::ARTICLE_CORE}#{maybe_strong_decorator}"
+    "#{self.class::ARTICLE_ROOT}#{flexi_decorator}"
   end
 
   def decorated_adj
@@ -111,16 +126,16 @@ class Article
 
   # @alias 'determiner'
   def use_weak_grid?
-    maybe_strong_decorator
+    flexi_decorator
   end
 end
 
 # -------------------------------------------------------------------------
 
 class A < Article
-  ARTICLE_CORE = 'ein'.freeze
+  ARTICLE_ROOT = 'ein'.freeze
 
-  def maybe_strong_decorators
+  def flexi_decorators
     MixedGrid.decorators
   end
 end
@@ -128,9 +143,9 @@ end
 # -------------------------------------------------------------------------
 
 class The < Article
-  ARTICLE_CORE = 'd'.freeze
+  ARTICLE_ROOT = 'd'.freeze
 
-  def maybe_strong_decorators
+  def flexi_decorators
     StrongGrid.decorators.map do |row|
       row.map do |decorator|
         decorator == 'e' ? 'ie' : decorator
@@ -146,7 +161,7 @@ def para (text)
 end
 
 para 'First give me an article and tell me which row reference (case) in the grid'
-para 'plus a noun with a column reference (gender)'
+puts 'plus a noun with a column reference (gender)'
 
   puts The.new(1).noun('Schlips', 1)
   puts The.new(2).noun('Schlips', 1)
