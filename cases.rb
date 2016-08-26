@@ -150,8 +150,19 @@ class The < Article
   def flexi_decorators
     StrongGrid.decorators.map do |row|
       row.map do |decorator|
-        decorator == 'e' ? 'ie' : decorator
+        definitify(decorator)
       end
+    end
+  end
+
+  def definitify(decorator)
+    case decorator
+    when 'e'
+      then 'ie'
+    when 'es'
+      then 'as'
+    else
+      decorator
     end
   end
 end
