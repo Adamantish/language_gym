@@ -80,8 +80,7 @@ class Article
 
   def noun(literal, gender_ref = nil)
     @noun_literal = literal
-    @gender_ref = gender_ref
-    @gender_ref ||= Noun.gender(literal)
+    @gender_ref = gender_ref || Noun.gender(literal)
     raise ArgumentError, 'I don\'t know that noun so you need to tell me the gender.' unless @gender_ref
     self
   end
@@ -110,11 +109,7 @@ class Article
 
   def decorated_adj
     return nil unless @adj_literal
-    decorator = if use_weak_grid?
-                  weak_decorator
-                else
-                  strong_decorator
-                end
+    decorator = use_weak_grid? ? weak_decorator : strong_decorator
     "#{@adj_literal}#{decorator}"
   end
 
@@ -126,7 +121,7 @@ class Article
 
   # @alias 'determiner'
   def use_weak_grid?
-    flexi_decorator
+    !!flexi_decorator
   end
 end
 
