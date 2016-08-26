@@ -1,5 +1,5 @@
 # --------------- GRIDS ---------------------------------------------------
-require 'pry'
+# require 'pry'
 
 class StrongGrid
   class << self
@@ -134,22 +134,40 @@ class The < Article
   end
 end
 
-# ----- Say Stuff!
 
-# With a noun that's not in the dictionary, tell me the gender column ref. e.g. masculine is 1
-puts The.new(3).adj('gelb').noun('Schlips', 1)
+# --------------- Say Stuff! ---------------------------------------------------
 
-# With nouns in the dictionary don't worry about that
+# First give me an article and tell me which row_reference (case) in the grid
+# plus a noun with a column reference (gender)
+
+puts The.new(1).noun('Schlips', 1)
+puts The.new(2).noun('Schlips', 1)
+puts The.new(3).noun('Schlips', 1)
+
+puts A.new(1).noun('Schlips', 1)
+puts A.new(2).noun('Schlips', 1)
+puts A.new(3).noun('Schlips', 1)
+
+# Now let's stick an adjective in there
+puts A.new(1).adj('furchtbar').noun('Schlips', 1)
+puts A.new(2).adj('furchtbar').noun('Schlips', 1)
+puts A.new(3).adj('furchtbar').noun('Schlips', 1)
+
+# If the noun is already in the dictionary you don't need to specify the gender.
 puts @subject = The.new(1).adj('glücklich').noun('Mann')
 puts @indirect_object = The.new(3).adj('schwartz').noun('Hund')
 puts @object = A.new(2).adj('gelb').noun('Knochen')
 
+# How about a full sentence?
 @verb = 'bringt'
+
 def sentence
   "#{@subject} #{@verb} #{@object} für #{@indirect_object}."
 end
 
 puts sentence
+
+# And if we change the object to something with a different gender...
 @object = A.new(2).adj('röt').noun('Frucht')
 puts sentence
 
