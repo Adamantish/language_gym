@@ -104,7 +104,8 @@ class Article
   end
 
   def decorated_article
-    "#{self.class::ARTICLE_ROOT}#{flexi_decorator}" if self.class::ARTICLE_ROOT
+    return nil unless self.class::ARTICLE_ROOT
+    "#{self.class::ARTICLE_ROOT}#{flexi_decorator}"
   end
 
   def decorated_adj
@@ -195,7 +196,7 @@ para 'How about a full sentence?'
   @verb = 'bringt'
 
   def sentence
-    "#{@subject} #{@verb} #{@object} für #{@indirect_object}."
+    "#{@subject} #{@verb} #{@indirect_object} #{@object}."
   end
 
   puts sentence
