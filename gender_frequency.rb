@@ -1,4 +1,4 @@
-require 'pry'
+# require 'pry'
 # require 'benchmark'
 
 ARTICLE_GENDERS = %w(Der Das Die)
@@ -43,7 +43,7 @@ class Guesser
         next unless guessed_article
 
         hit_one = guessed_article == article ? :yay : :red_herring
-        return [hit_one, guessed_article] if hit_one
+        return [hit_one, guessed_article]
       end
       [:nope, article]
     end
