@@ -4,6 +4,7 @@ require 'pry'
 ARTICLE_GENDERS = %w(Der Das Die)
 
 SUFFIXES = {'us' => 'Der',
+            'or' => 'Der',
             'ant' => 'Der',
             'ast' => 'Der',
             'ich' => 'Der',
@@ -55,33 +56,33 @@ end
 class Analysis
   class << self
     def process(result, totals)
-      bayes(posterior(result, prior(totals)))
+      bayes(prior(totals), posterior(result))
     end
 
     def prior(totals)
       grand_total = totals.values.inject(&:+)
       totals.each_pair do |article, total|
-        totals[article] = [total, total / grand_total.to_f]
+        totals[article] = total / grand_total.to_f
       end
       totals
     end
 
-    def posterior(result, prior)
+    def posterior(result)
       {}.tap do |posterior|
         result[:yay].each_pair do |article, words|
           yay_count = words.count
           herring_count = result[:red_herring][article].count
           hit_rate = yay_count / (yay_count + herring_count).to_f
-          posterior[article] = prior[article] << hit_rate
+          posterior[article] = hit_rate
         end
       end
     end
 
-    def bayes(post_n_prior)
+    def bayes(prior, posterior)
       {}.tap do |power|
-        post_n_prior.each_pair do |article, data|
-          prior_uncertainty = 1 - data[1]
-          post_uncertainty = 1 - data[2]
+        prior.each_pair do |article, value|
+          prior_uncertainty = 1 - value
+          post_uncertainty  = 1 - posterior[article]
 
           power[article] = if post_uncertainty > 0
             (prior_uncertainty / post_uncertainty).round(2)
