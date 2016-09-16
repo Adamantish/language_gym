@@ -1,8 +1,10 @@
 require 'pry'
+# require 'benchmark'
 
 ARTICLE_GENDERS = %w(Der Das Die)
 
-SUFFICES = {'ant' => 'Der',
+SUFFIXES = {'us' => 'Der',
+            'ant' => 'Der',
             'ast' => 'Der',
             'ich' => 'Der',
             'ig' => 'Der',
@@ -21,51 +23,118 @@ SUFFICES = {'ant' => 'Der',
             'ei' => 'Die',
             'heit' => 'Die',
             'ie' => 'Die',
-            'ik' => 'Die'}
+            'ik' => 'Die',
+            'in' => 'Die',
+            'schaft' => 'Die',
+            'sion' => 'Die',
+            'tät' => 'Die',
+            'ung' => 'Die',
+            'ur' => 'Die'}
 
-def verdict(article, noun)
-  i = noun.length
-  bingo =
-  while i > 1
-    i -= 1
-    bingo = predict_gender(article, noun[i..-1])
-    return bingo if bingo
-    # predict_gender(noun[0..i])
+# -------------------------------------------------------------------
+
+class Guesser
+  class << self
+    def verdict(article, noun)
+      i = 1
+      while i < noun.length
+        guessed_article = SUFFIXES[noun[i..-1]]
+        i += 1
+        next unless guessed_article
+
+        hit_one = guessed_article == article ? :yay : :red_herring
+        return [hit_one, guessed_article] if hit_one
+      end
+      [:nope, article]
+    end
   end
-  :nope
 end
 
-def predict_gender(article, ending)
-  return false unless SUFFICES[ending]
-  SUFFICES[ending] == article ? :yay : :red_herring
+# -------------------------------------------------------------------
+
+class Analysis
+  class << self
+    def process(result, totals)
+      bayes(posterior(result, prior(totals)))
+    end
+
+    def prior(totals)
+      grand_total = totals.values.inject(&:+)
+      totals.each_pair do |article, total|
+        totals[article] = [total, total / grand_total.to_f]
+      end
+      totals
+    end
+
+    def posterior(result, prior)
+      {}.tap do |posterior|
+        result[:yay].each_pair do |article, words|
+          yay_count = words.count
+          herring_count = result[:red_herring][article].count
+          hit_rate = yay_count / (yay_count + herring_count).to_f
+          posterior[article] = prior[article] << hit_rate
+        end
+      end
+    end
+
+    def bayes(post_n_prior)
+      {}.tap do |power|
+        post_n_prior.each_pair do |article, data|
+          prior_uncertainty = 1 - data[1]
+          post_uncertainty = 1 - data[2]
+
+          power[article] = if post_uncertainty > 0
+            (prior_uncertainty / post_uncertainty).round(2)
+          else
+            :perfect
+          end
+        end
+      end
+    end
+  end
 end
+
+# -------------------------------------------------------------------
+
+class Presenter
+  class << self
+    def format(result, stats)
+      print ARTICLE_GENDERS.join '  '
+      result.keys.each do |verdict|
+        print "\n"
+        ARTICLE_GENDERS.each do |article|
+          print result[verdict][article].count.to_s.ljust(5)
+        end
+        print "#{verdict.to_s.capitalize}"
+      end
+      puts "\n\nPredictive powers: \n#{stats.to_s.gsub(',',",\n")}"
+    end
+  end
+end
+
+# -------------------------------------------------------------------
 
 def main
   str = File.read('dictionary.txt')
   lines = str.split("\n")
   result = { yay: {}, red_herring: {}, nope: {}}
+  totals = Hash.new(0)
 
   lines.each do |line|
     item = line.sub(/.+– /, '').sub(/ ~.+/,'')
     article, noun = item.split(' ')
     next unless ARTICLE_GENDERS.include? article
-    verdict = verdict(*item.split(' '))
-    result[verdict][article] ||= []
-    result[verdict][article] << noun
+    totals[article] += 1
+    verdict, guessed_article = Guesser.verdict(article, noun)
+    result[verdict][guessed_article] ||= []
+    result[verdict][guessed_article] << noun
   end
 
-  format_result(result)
+  stats = Analysis.process(result, totals)
+  Presenter.format(result, stats)
 end
 
-def format_result(result)
-  result.keys.each do |verdict|
-    puts verdict.to_s.capitalize
-    result[verdict].keys.each do |article|
-      puts "  #{article}"
-      puts "     #{result[verdict][article].count}"
-    end
-  end
-end
+# -------------------------------------------------------------------
 
 main
 
