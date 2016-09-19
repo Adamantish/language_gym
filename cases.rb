@@ -215,4 +215,3 @@ para 'How about a full sentence?'
 para 'And if we change the object to something with a different gender...'
   @object = A.new(2).adj('röt').noun('Frucht')
   puts sentence
-

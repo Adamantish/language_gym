@@ -1,5 +1,6 @@
-# require 'pry'
+require 'json'
 # require 'benchmark'
+# require 'pry'
 
 ARTICLE_GENDERS = %w(Der Das Die)
 
@@ -29,7 +30,8 @@ SUFFIXES = {'us' => 'Der',
             'sion' => 'Die',
             'tät' => 'Die',
             'ung' => 'Die',
-            'ur' => 'Die'}
+            'ur' => 'Die'
+          }
 
 # -------------------------------------------------------------------
 
@@ -113,25 +115,44 @@ class Presenter
 end
 
 # -------------------------------------------------------------------
+def sort_result_words(result)
+  result.each_pair do |verdict, article|
+    article.each_pair do |article, words|
+      result[verdict][article] = words.sort
+    end
+  end
+  result
+end
+
 
 def main
   str = File.read('dictionary.txt')
   lines = str.split("\n")
   result = { yay: {}, red_herring: {}, nope: {}}
-  totals = Hash.new(0)
+  baseline_totals = Hash.new(0)
 
-  lines.each do |line|
-    item = line.sub(/.+– /, '').sub(/ ~.+/,'')
+  lines.map! { |line| line.sub(/.+– /, '').sub(/ ~.+/,'') }
+
+  lines.uniq.each do |item|
     article, noun = item.split(' ')
+    # Some of these text lines (about 1.5%) aren't in the {Article Noun} format. Ignore them.
     next unless ARTICLE_GENDERS.include? article
-    totals[article] += 1
+    baseline_totals[article] += 1
     verdict, guessed_article = Guesser.verdict(article, noun)
     result[verdict][guessed_article] ||= []
-    result[verdict][guessed_article] << noun
+    result[verdict][guessed_article] << "#{article} #{noun}"
   end
 
-  stats = Analysis.process(result, totals)
+  result = sort_result_words(result)
+
+  stats = Analysis.process(result, baseline_totals)
   Presenter.format(result, stats)
+
+  out_file_name = 'full_results.json'
+  out_file = File.open(out_file_name, 'w')
+  out_file.write JSON.pretty_generate(result)
+  puts "Written results to #{out_file_name}."
+  out_file.close
 end
 
 # -------------------------------------------------------------------
