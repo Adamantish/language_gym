@@ -17,6 +17,7 @@ SUFFIXES = {'us' => 'Der',
             'ma' => 'Das',
             'tel' => 'Das',
             'tum' => 'Das',
+            'aus' => 'Das',
             'um' => 'Das',
             'a' => 'Die',
             'anz' => 'Die',
@@ -69,15 +70,20 @@ class Analysis
       totals
     end
 
-    def posterior_calc(red_herring_words, yay_words)
-      yay_count = yay_words.count
-      yay_count / (yay_count + red_herring_words.count).to_f
+    def posterior_calc(red_herring_count, yay_count)
+      yay_count / (yay_count + red_herring_count).to_f
     end
 
     def posterior(result)
       {}.tap do |posterior|
-        result[:yay].each_pair do |article, words|
-          posterior[article] = posterior_calc(result[:red_herring][article], words)
+        result[:yay].each_pair do |article, suffix_hash|
+          article_counts = suffix_hash.inject([0,0]) do |acc, suffix_n_words|
+            suffix, words = suffix_n_words
+            red_herrings = result[:red_herring][article][suffix]
+            red_herring_count = red_herrings ? red_herrings.count : 0
+            [acc[0] + red_herring_count, acc[1] + words.count]
+          end
+          posterior[article] = posterior_calc(*article_counts)
         end
       end
     end
@@ -108,7 +114,11 @@ class Presenter
       result.keys.each do |verdict|
         print "\n"
         ARTICLE_GENDERS.each do |article|
-          print result[verdict][article].count.to_s.ljust(5)
+          word_count = result[verdict][article].inject(0) do |acc, suffix_n_words|
+            suffix, words = suffix_n_words
+            acc + words.count
+          end
+          print word_count.to_s.ljust(5)
         end
         print "#{verdict.to_s.capitalize}"
       end
@@ -120,8 +130,10 @@ end
 # -------------------------------------------------------------------
 def sort_result_words(result)
   result.each_pair do |verdict, article|
-    article.each_pair do |article, words|
-      result[verdict][article] = words.sort
+    article.each_pair do |article, suffix_hash|
+      suffix_hash.each_pair do |suffix, words|
+        result[verdict][article][suffix] = words.sort
+      end
     end
   end
   result
@@ -144,12 +156,14 @@ def main
     baseline_totals[article] += 1
     verdict, guessed_article, suffix = Guesser.verdict(article, noun)
     result[verdict][guessed_article] ||= {}
+    suffix = suffix || 'no_suffix'
     result[verdict][guessed_article][suffix] ||= []
     result[verdict][guessed_article][suffix] << "#{article} #{noun}"
   end
 
   result = sort_result_words(result)
 
+  binding.pry
   stats = Analysis.process(result, baseline_totals)
   Presenter.format(result, stats)
 
