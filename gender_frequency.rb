@@ -1,6 +1,6 @@
 require 'json'
 # require 'benchmark'
-# require 'pry'
+require 'pry'
 
 ARTICLE_GENDERS = %w(Der Das Die)
 
@@ -40,14 +40,15 @@ class Guesser
     def verdict(article, noun)
       i = 1
       while i < noun.length
-        guessed_article = SUFFIXES[noun[i..-1]]
+        suffix = noun[i..-1]
+        guessed_article = SUFFIXES[suffix]
         i += 1
         next unless guessed_article
 
-        hit_one = guessed_article == article ? :yay : :red_herring
-        return [hit_one, guessed_article]
+        verdict = guessed_article == article ? :yay : :red_herring
+        return [verdict, guessed_article, suffix]
       end
-      [:nope, article]
+      [:nope, article, nil]
     end
   end
 end
@@ -68,13 +69,15 @@ class Analysis
       totals
     end
 
+    def posterior_calc(red_herring_words, yay_words)
+      yay_count = yay_words.count
+      yay_count / (yay_count + red_herring_words.count).to_f
+    end
+
     def posterior(result)
       {}.tap do |posterior|
         result[:yay].each_pair do |article, words|
-          yay_count = words.count
-          herring_count = result[:red_herring][article].count
-          hit_rate = yay_count / (yay_count + herring_count).to_f
-          posterior[article] = hit_rate
+          posterior[article] = posterior_calc(result[:red_herring][article], words)
         end
       end
     end
@@ -125,6 +128,7 @@ def sort_result_words(result)
 end
 
 
+
 def main
   str = File.read('dictionary.txt')
   lines = str.split("\n")
@@ -138,9 +142,10 @@ def main
     # Some of these text lines (about 1.5%) aren't in the {Article Noun} format. Ignore them.
     next unless ARTICLE_GENDERS.include? article
     baseline_totals[article] += 1
-    verdict, guessed_article = Guesser.verdict(article, noun)
-    result[verdict][guessed_article] ||= []
-    result[verdict][guessed_article] << "#{article} #{noun}"
+    verdict, guessed_article, suffix = Guesser.verdict(article, noun)
+    result[verdict][guessed_article] ||= {}
+    result[verdict][guessed_article][suffix] ||= []
+    result[verdict][guessed_article][suffix] << "#{article} #{noun}"
   end
 
   result = sort_result_words(result)
