@@ -1,6 +1,5 @@
 require 'json'
 # require 'benchmark'
-require 'pry'
 
 ARTICLE_GENDERS = %w(Der Das Die)
 
@@ -18,7 +17,7 @@ SUFFIXES = {'us' => 'Der',
             'tel' => 'Das',
             'tum' => 'Das',
             'aus' => 'Das',
-            'um' => 'Das',
+            # 'um' => 'Das',
             'a' => 'Die',
             'anz' => 'Die',
             'enz' => 'Die',
@@ -26,12 +25,13 @@ SUFFIXES = {'us' => 'Der',
             'heit' => 'Die',
             'ie' => 'Die',
             'ik' => 'Die',
-            'in' => 'Die',
+            # 'in' => 'Die',
             'schaft' => 'Die',
             'sion' => 'Die',
             'tät' => 'Die',
             'ung' => 'Die',
-            'ur' => 'Die'
+            'ur' => 'Die',
+            'eit' => 'Die'
           }
 
 # -------------------------------------------------------------------
@@ -163,7 +163,6 @@ def main
 
   result = sort_result_words(result)
 
-  binding.pry
   stats = Analysis.process(result, baseline_totals)
   Presenter.format(result, stats)
 
