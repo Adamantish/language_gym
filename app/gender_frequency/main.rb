@@ -1,38 +1,39 @@
 require 'json'
 # require 'benchmark'
 
-ARTICLE_GENDERS = %w(Der Das Die)
+OUT_FILE_PATH = 'outputs/full_results.json'.freeze
+ARTICLE_GENDERS = %w(Der Das Die).freeze
 
-SUFFIXES = {'us' => 'Der',
-            'or' => 'Der',
-            'ant' => 'Der',
-            'ast' => 'Der',
-            'ich' => 'Der',
-            'ig' => 'Der',
-            'ismus' => 'Der',
-            'ling' => 'Der',
-            'chen' => 'Das',
-            'lein' => 'Das',
-            'ma' => 'Das',
-            'tel' => 'Das',
-            'tum' => 'Das',
-            'aus' => 'Das',
-            # 'um' => 'Das',
-            'a' => 'Die',
-            'anz' => 'Die',
-            'enz' => 'Die',
-            'ei' => 'Die',
-            'heit' => 'Die',
-            'ie' => 'Die',
-            'ik' => 'Die',
-            # 'in' => 'Die',
-            'schaft' => 'Die',
-            'sion' => 'Die',
-            'tät' => 'Die',
-            'ung' => 'Die',
-            'ur' => 'Die',
-            'eit' => 'Die'
-          }
+SUFFIXES = { 'us' => 'Der',
+             'or' => 'Der',
+             'ant' => 'Der',
+             'ast' => 'Der',
+             'ich' => 'Der',
+             'ig' => 'Der',
+             'ismus' => 'Der',
+             'ling' => 'Der',
+             'chen' => 'Das',
+             'lein' => 'Das',
+             'ma' => 'Das',
+             'tel' => 'Das',
+             'tum' => 'Das',
+             'aus' => 'Das',
+             # 'um' => 'Das',
+             'a' => 'Die',
+             'anz' => 'Die',
+             'enz' => 'Die',
+             'ei' => 'Die',
+             'heit' => 'Die',
+             'ie' => 'Die',
+             'ik' => 'Die',
+             # 'in' => 'Die',
+             'schaft' => 'Die',
+             'sion' => 'Die',
+             'tät' => 'Die',
+             'ung' => 'Die',
+             'ur' => 'Die',
+             'eit' => 'Die'
+          }.freeze
 
 # -------------------------------------------------------------------
 
@@ -77,7 +78,7 @@ class Analysis
     def posterior(result)
       {}.tap do |posterior|
         result[:yay].each_pair do |article, suffix_hash|
-          article_counts = suffix_hash.inject([0,0]) do |acc, suffix_n_words|
+          article_counts = suffix_hash.inject([0, 0]) do |acc, suffix_n_words|
             suffix, words = suffix_n_words
             red_herrings = result[:red_herring][article][suffix]
             red_herring_count = red_herrings ? red_herrings.count : 0
@@ -95,10 +96,10 @@ class Analysis
           post_uncertainty  = 1 - posterior[article]
 
           power[article] = if post_uncertainty > 0
-            (prior_uncertainty / post_uncertainty).round(2)
-          else
-            :perfect
-          end
+                             (prior_uncertainty / post_uncertainty).round(2)
+                           else
+                             :perfect
+                           end
         end
       end
     end
@@ -115,14 +116,14 @@ class Presenter
         print "\n"
         ARTICLE_GENDERS.each do |article|
           word_count = result[verdict][article].inject(0) do |acc, suffix_n_words|
-            suffix, words = suffix_n_words
+            words = suffix_n_words[1]
             acc + words.count
           end
           print word_count.to_s.ljust(5)
         end
-        print "#{verdict.to_s.capitalize}"
+        print verdict.to_s.capitalize.to_s
       end
-      puts "\n\nPredictive powers: \n#{stats.to_s.gsub(',',",\n")}"
+      puts "\n\nPredictive powers: \n#{stats.to_s.gsub(',', ",\n")}"
     end
   end
 end
@@ -139,16 +140,13 @@ def sort_result_words(result)
   result
 end
 
-
-
 def main
-  str = File.read('dictionary.txt')
+  str = File.read('source_data/common_nouns.txt')
   lines = str.split("\n")
-  result = { yay: {}, red_herring: {}, nope: {}}
+  result = { yay: {}, red_herring: {}, nope: {} }
   baseline_totals = Hash.new(0)
 
-  lines.map! { |line| line.sub(/.+– /, '').sub(/ ~.+/,'') }
-
+  lines.map! { |line| line.sub(/.+– /, '').sub(/ ~.+/, '') }
   lines.uniq.each do |item|
     article, noun = item.split(' ')
     # Some of these text lines (about 1.5%) aren't in the {Article Noun} format. Ignore them.
@@ -156,28 +154,21 @@ def main
     baseline_totals[article] += 1
     verdict, guessed_article, suffix = Guesser.verdict(article, noun)
     result[verdict][guessed_article] ||= {}
-    suffix = suffix || 'no_suffix'
+    suffix ||= 'no_suffix'
     result[verdict][guessed_article][suffix] ||= []
     result[verdict][guessed_article][suffix] << "#{article} #{noun}"
   end
-
   result = sort_result_words(result)
 
   stats = Analysis.process(result, baseline_totals)
   Presenter.format(result, stats)
 
-  out_file_name = 'full_results.json'
-  out_file = File.open(out_file_name, 'w')
+  out_file = File.open(OUT_FILE_PATH, 'w')
   out_file.write JSON.pretty_generate(result)
-  puts "Written results to #{out_file_name}."
+  puts "Written results to #{OUT_FILE_PATH}."
   out_file.close
 end
 
 # -------------------------------------------------------------------
 
 main
-
-
-
-
-
