@@ -12,17 +12,20 @@ SUFFIXES = { 'us' => 'Der',
              'ig' => 'Der',
              'ismus' => 'Der',
              'ling' => 'Der',
+             'aum' => 'Der', # added
+
              'chen' => 'Das',
              'lein' => 'Das',
              'ma' => 'Das',
-             'tel' => 'Das',
+             # 'tel' => 'Das',
              'tum' => 'Das',
              'aus' => 'Das',
-             # 'um' => 'Das',
+             'um' => 'Das',
+
              'a' => 'Die',
              'anz' => 'Die',
              'enz' => 'Die',
-             'ei' => 'Die',
+             # 'ei' => 'Die',
              'heit' => 'Die',
              'ie' => 'Die',
              'ik' => 'Die',
@@ -111,7 +114,7 @@ end
 class Presenter
   class << self
     def format(result, stats)
-      print ARTICLE_GENDERS.join '  '
+      print "\n" + ARTICLE_GENDERS.join('  ')
       result.keys.each do |verdict|
         print "\n"
         ARTICLE_GENDERS.each do |article|

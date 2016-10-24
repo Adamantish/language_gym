@@ -244,11 +244,6 @@
         "Die Romantik",
         "Die Technik"
       ],
-      "ei": [
-        "Die Bäckerei",
-        "Die Datei",
-        "Die Polizei"
-      ],
       "heit": [
         "Die Abwesenheit",
         "Die Angewohnheit",
@@ -394,11 +389,18 @@
         "Das Weibchen",
         "Das Zischen"
       ],
-      "tel": [
-        "Das Hotel",
-        "Das Kapitel",
-        "Das Motel",
-        "Das Viertel"
+      "um": [
+        "Das Album",
+        "Das Auditorium",
+        "Das Maximum",
+        "Das Museum",
+        "Das Mysterium",
+        "Das Podium",
+        "Das Publikum",
+        "Das Territorium",
+        "Das Universum",
+        "Das Vakuum",
+        "Das Zentrum"
       ],
       "tum": [
         "Das Datum",
@@ -412,6 +414,17 @@
       ]
     },
     "Der": {
+      "aum": [
+        "Der Albtraum",
+        "Der Baum",
+        "Der Innenraum",
+        "Der Kabelbaum",
+        "Der Kofferraum",
+        "Der Raum",
+        "Der Saum",
+        "Der Schaum",
+        "Der Traum"
+      ],
       "or": [
         "Der Autor",
         "Der Chor",
@@ -492,36 +505,10 @@
     }
   },
   "red_herring": {
-    "Das": {
-      "tel": [
-        "Der Bademantel",
-        "Der Beutel",
-        "Der Geldbeutel",
-        "Der Gürtel",
-        "Der Mantel",
-        "Der Sattel"
-      ],
-      "ma": [
-        "Die Firma",
-        "Die Mama",
-        "Die Oma"
-      ],
-      "chen": [
-        "Der Knochen",
-        "Der Kuchen",
-        "Der Pfannkuchen",
-        "Die Wangenknochen"
-      ],
-      "aus": [
-        "Der Applaus",
-        "Die Fledermaus",
-        "Die Maus"
-      ],
-      "tum": [
-        "Der Reichtum"
-      ]
-    },
     "Der": {
+      "aum": [
+        "Die Raum"
+      ],
       "ast": [
         "Die Last",
         "Die Rast"
@@ -545,6 +532,31 @@
       ],
       "ig": [
         "Die Dig"
+      ]
+    },
+    "Das": {
+      "ma": [
+        "Die Firma",
+        "Die Mama",
+        "Die Oma"
+      ],
+      "chen": [
+        "Der Knochen",
+        "Der Kuchen",
+        "Der Pfannkuchen",
+        "Die Wangenknochen"
+      ],
+      "um": [
+        "Die Aluminium",
+        "Die Studium"
+      ],
+      "aus": [
+        "Der Applaus",
+        "Die Fledermaus",
+        "Die Maus"
+      ],
+      "tum": [
+        "Der Reichtum"
       ]
     },
     "Die": {
@@ -572,9 +584,6 @@
         "Der Sprung",
         "Der Ursprung"
       ],
-      "ei": [
-        "Der Schrei"
-      ],
       "ik": [
         "Der Streik"
       ],
@@ -599,7 +608,6 @@
         "Der Agent",
         "Der Akt",
         "Der Akzent",
-        "Der Albtraum",
         "Der Alkohol",
         "Der Altar",
         "Der Anfang",
@@ -647,6 +655,7 @@
         "Der Außenseiter",
         "Der Bach",
         "Der Backofen",
+        "Der Bademantel",
         "Der Bahnhof",
         "Der Baldachin",
         "Der Balkon",
@@ -661,7 +670,6 @@
         "Der Bauch",
         "Der Bauer",
         "Der Bauernhof",
-        "Der Baum",
         "Der Beat",
         "Der Becher",
         "Der Befehl",
@@ -677,6 +685,7 @@
         "Der Besucher",
         "Der Beton",
         "Der Betreiber",
+        "Der Beutel",
         "Der Beweis",
         "Der Bewohner",
         "Der Bh",
@@ -853,6 +862,7 @@
         "Der Gegner",
         "Der Gehweg",
         "Der Geist",
+        "Der Geldbeutel",
         "Der Gelehrte",
         "Der Genosse",
         "Der Gentleman",
@@ -882,6 +892,7 @@
         "Der Großvater",
         "Der Grund",
         "Der Gurt",
+        "Der Gürtel",
         "Der Haarschnitt",
         "Der Habicht",
         "Der Hafen",
@@ -933,7 +944,6 @@
         "Der Index",
         "Der Ingwer",
         "Der Inhalt",
-        "Der Innenraum",
         "Der Instinkt",
         "Der Jahrestag",
         "Der Jasmin",
@@ -942,7 +952,6 @@
         "Der Journalist",
         "Der Junge",
         "Der Jäger",
-        "Der Kabelbaum",
         "Der Kaffee",
         "Der Kaiser",
         "Der Kalender",
@@ -977,7 +986,6 @@
         "Der Kobold",
         "Der Koch",
         "Der Koffer",
-        "Der Kofferraum",
         "Der Kojote",
         "Der Koks",
         "Der Kollaps",
@@ -1045,6 +1053,7 @@
         "Der Man",
         "Der Mangel",
         "Der Mann",
+        "Der Mantel",
         "Der Marker",
         "Der Markt",
         "Der Marsch",
@@ -1152,7 +1161,6 @@
         "Der Ratgeber",
         "Der Ratschlag",
         "Der Rauch",
-        "Der Raum",
         "Der Rebell",
         "Der Rechtsmittelgrund",
         "Der Recorder",
@@ -1193,14 +1201,13 @@
         "Der Sand",
         "Der Sarg",
         "Der Satellit",
+        "Der Sattel",
         "Der Satz",
-        "Der Saum",
         "Der Schaden",
         "Der Schal",
         "Der Schalter",
         "Der Schatten",
         "Der Schatz",
-        "Der Schaum",
         "Der Schauspieler",
         "Der Scheinwerfer",
         "Der Schiefer",
@@ -1226,6 +1233,7 @@
         "Der Schornstein",
         "Der Schrank",
         "Der Schrecken",
+        "Der Schrei",
         "Der Schreibtisch",
         "Der Schritt",
         "Der Schrott",
@@ -1344,7 +1352,6 @@
         "Der Transfer",
         "Der Transport",
         "Der Tratsch",
-        "Der Traum",
         "Der Trick",
         "Der Triumph",
         "Der Troll",
@@ -1470,7 +1477,6 @@
         "Die Aktion",
         "Die Allgemeine",
         "Die Alternative",
-        "Die Aluminium",
         "Die Ameise",
         "Die Amerikaner",
         "Die Analyse",
@@ -1548,6 +1554,7 @@
         "Die Burst",
         "Die Buster",
         "Die Butter",
+        "Die Bäckerei",
         "Die Böen",
         "Die Bühne",
         "Die Chance",
@@ -1564,6 +1571,7 @@
         "Die Dame",
         "Die Damen",
         "Die Dank",
+        "Die Datei",
         "Die Daten",
         "Die Debatte",
         "Die Decke",
@@ -1949,6 +1957,7 @@
         "Die Platform",
         "Die Platte",
         "Die Poker",
+        "Die Polizei",
         "Die Pop",
         "Die Portion",
         "Die Pose",
@@ -1974,7 +1983,6 @@
         "Die Ranch",
         "Die Rate",
         "Die Ratte",
-        "Die Raum",
         "Die Reaktion",
         "Die Rede",
         "Die Reflexion",
@@ -2092,7 +2100,6 @@
         "Die Straftat",
         "Die Straße",
         "Die Strecke",
-        "Die Studium",
         "Die Stunde",
         "Die Stute",
         "Die Stärke",
@@ -2224,7 +2231,6 @@
         "Das Abenteuer",
         "Das Ableben",
         "Das Ahorn",
-        "Das Album",
         "Das Alien",
         "Das Alter",
         "Das Angebot",
@@ -2238,7 +2244,6 @@
         "Das Ass",
         "Das Assoziierte",
         "Das Atem",
-        "Das Auditorium",
         "Das Auf",
         "Das Auge",
         "Das Augenlid",
@@ -2426,6 +2431,7 @@
         "Das Holster",
         "Das Holz",
         "Das Horn",
+        "Das Hotel",
         "Das Huhn",
         "Das Ich",
         "Das Innere",
@@ -2447,6 +2453,7 @@
         "Das Kamel",
         "Das Kanu",
         "Das Kapital",
+        "Das Kapitel",
         "Das Kin",
         "Das Kind",
         "Das Kinderbett",
@@ -2505,7 +2512,6 @@
         "Das Match",
         "Das Material",
         "Das Maultier",
-        "Das Maximum",
         "Das Maß",
         "Das Medikament",
         "Das Meer",
@@ -2524,12 +2530,11 @@
         "Das Monster",
         "Das Monument",
         "Das Moos",
+        "Das Motel",
         "Das Motiv",
         "Das Motorrad",
         "Das Murmeln",
-        "Das Museum",
         "Das Muster",
-        "Das Mysterium",
         "Das Nachthemd",
         "Das Nasenloch",
         "Das Neon",
@@ -2559,7 +2564,6 @@
         "Das Picknick",
         "Das Plaid",
         "Das Plakat",
-        "Das Podium",
         "Das Poltern",
         "Das Pony",
         "Das Porträt",
@@ -2572,7 +2576,6 @@
         "Das Programm",
         "Das Prospekt",
         "Das Protokoll",
-        "Das Publikum",
         "Das Pulver",
         "Das Puzzle",
         "Das Quadrat",
@@ -2653,7 +2656,6 @@
         "Das Telefon",
         "Das Teleskop",
         "Das Terminal",
-        "Das Territorium",
         "Das Theater",
         "Das Ticket",
         "Das Tier",
@@ -2667,11 +2669,9 @@
         "Das Töten",
         "Das Unbehagen",
         "Das Unglück",
-        "Das Universum",
         "Das Unkraut",
         "Das Unternehmen",
         "Das Urteil",
-        "Das Vakuum",
         "Das Verfahren",
         "Das Verhalten",
         "Das Verhältnis",
@@ -2681,6 +2681,7 @@
         "Das Vertrauen",
         "Das Video",
         "Das Vieh",
+        "Das Viertel",
         "Das Violett",
         "Das Volk",
         "Das Volumen",
@@ -2707,7 +2708,6 @@
         "Das Wunder",
         "Das Wörterbuch",
         "Das Zelt",
-        "Das Zentrum",
         "Das Zeug",
         "Das Zeugnis",
         "Das Ziel",

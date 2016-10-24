@@ -15,7 +15,9 @@ class StrongGrid < Grid
     def key_letters
       [ ['r', 's', 'e', 'e'],
         ['n', 's', 'e', 'e'],
-        ['m', 'm', 'r', 'n'] ]
+        ['m', 'm', 'r', 'n'],
+        ['s', 's', 'r', 'r']
+      ]
     end
 
     def decorators
@@ -60,6 +62,7 @@ class Noun
       { 'Hund' => { gender_ref: 1 },
         'Mann' => { gender_ref: 1 },
         'Knochen' => { gender_ref: 1 },
+        'Bier' => { gender_ref: 2 },
         'Frucht' => { gender_ref: 3 }
       }
     end
@@ -213,5 +216,5 @@ para 'How about a full sentence?'
   puts sentence
 
 para 'And if we change the object to something with a different gender...'
-  @object = A.new(2).adj('röt').noun('Frucht')
+  @object = A.new(2).adj('röt').noun('Bier')
   puts sentence
