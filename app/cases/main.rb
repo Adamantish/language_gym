@@ -173,48 +173,48 @@ end
 
 # --------------- Say Stuff! ---------------------------------------------------
 
-def para (text)
-  puts "\n#{text}\n"
-end
+# def para (text)
+#   puts "\n#{text}\n"
+# end
 
-para 'First give me an article and tell me which row reference (case) in the grid'
-puts 'plus a noun with a column reference (gender)'
+# para 'First give me an article and tell me which row reference (case) in the grid'
+# puts 'plus a noun with a column reference (gender)'
 
-  puts The.new(1).noun('Schlips', 1)
-  puts The.new(2).noun('Schlips', 1)
-  puts The.new(3).noun('Schlips', 1)
+#   puts The.new(1).noun('Schlips', 1)
+#   puts The.new(2).noun('Schlips', 1)
+#   puts The.new(3).noun('Schlips', 1)
 
-  puts A.new(1).noun('Schlips', 1)
-  puts A.new(2).noun('Schlips', 1)
-  puts A.new(3).noun('Schlips', 1)
+#   puts A.new(1).noun('Schlips', 1)
+#   puts A.new(2).noun('Schlips', 1)
+#   puts A.new(3).noun('Schlips', 1)
 
-para 'Now let\'s stick an adjective in there'
+# para 'Now let\'s stick an adjective in there'
 
-  puts A.new(1).adj('furchtbar').noun('Schlips', 1)
-  puts A.new(2).adj('furchtbar').noun('Schlips', 1)
-  puts A.new(3).adj('furchtbar').noun('Schlips', 1)
+#   puts A.new(1).adj('furchtbar').noun('Schlips', 1)
+#   puts A.new(2).adj('furchtbar').noun('Schlips', 1)
+#   puts A.new(3).adj('furchtbar').noun('Schlips', 1)
 
-para 'Should be similar when there is no article'
+# para 'Should be similar when there is no article'
 
-  puts NoArticle.new(1).adj('furchtbar').noun('Schlips', 1)
-  puts NoArticle.new(2).adj('furchtbar').noun('Schlips', 1)
-  puts NoArticle.new(3).adj('furchtbar').noun('Schlips', 1)
+#   puts NoArticle.new(1).adj('furchtbar').noun('Schlips', 1)
+#   puts NoArticle.new(2).adj('furchtbar').noun('Schlips', 1)
+#   puts NoArticle.new(3).adj('furchtbar').noun('Schlips', 1)
 
-para 'If the noun is already in the dictionary you don\'t need to specify the gender.'
+# para 'If the noun is already in the dictionary you don\'t need to specify the gender.'
 
-  puts @subject = The.new(1).adj('glücklich').noun('Mann')
-  puts @indirect_object = The.new(3).adj('schwartz').noun('Hund')
-  puts @object = A.new(2).adj('gelb').noun('Knochen')
+#   puts @subject = The.new(1).adj('glücklich').noun('Mann')
+#   puts @indirect_object = The.new(3).adj('schwartz').noun('Hund')
+#   puts @object = A.new(2).adj('gelb').noun('Knochen')
 
-para 'How about a full sentence?'
-  @verb = 'bringt'
+# para 'How about a full sentence?'
+#   @verb = 'bringt'
 
-  def sentence
-    "#{@subject} #{@verb} #{@indirect_object} #{@object}."
-  end
+#   def sentence
+#     "#{@subject} #{@verb} #{@indirect_object} #{@object}."
+#   end
 
-  puts sentence
+#   puts sentence
 
-para 'And if we change the object to something with a different gender...'
-  @object = A.new(2).adj('röt').noun('Bier')
-  puts sentence
+# para 'And if we change the object to something with a different gender...'
+#   @object = A.new(2).adj('röt').noun('Bier')
+#   puts sentence
