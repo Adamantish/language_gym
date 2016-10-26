@@ -10,20 +10,20 @@ RSpec.describe 'Decorating nouns' do
       expect(deutsch).to eq 'den Schlips'
 
       deutsch = The.new(3).noun('Schlips', 1).to_s
-      expect(deutsch).to eq '_ Schlips'
+      expect(deutsch).to eq 'de_ Schlips'
     end
   end
 
   describe 'A:' do
-    it 'through Mixed Grid shall you find your peace ' do
+    it 'through Mixed Grid shall you find your peace' do
       deutsch = A.new(1).noun('Schlips', 1).to_s
       expect(deutsch).to eq 'ein Schlips'
 
       deutsch = A.new(2).noun('Schlips', 1).to_s
-      expect(deutsch).to eq 'einen Schlips'
+      expect(deutsch).to eq '_ Schlips'
 
       deutsch = A.new(3).noun('Schlips', 1).to_s
-      expect(deutsch).to eq 'ein_ Schlips'
+      expect(deutsch).to eq '_ Schlips'
     end
   end
 
@@ -36,17 +36,17 @@ RSpec.describe 'Decorating nouns' do
       expect(deutsch).to eq 'einem glücklichen Mann'
 
       deutsch = The.new(1).adj('schwartz').noun('Hund').to_s
-      expect(deutsch).to eq 'der schwartze Hund'
+      expect(deutsch).to eq '_ schwartze Hund'
 
       deutsch = The.new(2).adj('gelb').noun('Knochen').to_s
-      expect(deutsch).to eq 'den gelben Knochen'
+      expect(deutsch).to eq '_ gelben Knochen'
 
       # Treachery!
       deutsch = A.new(1).adj('schwartz').noun('Hund').to_s
-      expect(deutsch).to eq 'ein schwartz_ Hund'
+      expect(deutsch).to eq '_ schwartz_ Hund'
     end
 
-    it 'shall be overcome by the Strong when duty the decorator has forsaken' do
+    it 'shall be overcome by the Strong when the decorator hath forsaken duty' do
       deutsch = A.new(1).adj('röt').noun('Bier').to_s
       expect(deutsch).to eq 'ein rötes Bier'
 

@@ -45,11 +45,11 @@ end
 class MixedGrid < StrongGrid
   class << self
     def decorators
-      decs = super
-      decs[0][0] = nil
-      decs[0][1] = nil
-      decs[1][1] = nil
-      decs
+      super.tap do |decs|
+        decs[0][0] = nil
+        decs[0][1] = nil
+        decs[1][1] = nil
+      end
     end
   end
 end
@@ -170,8 +170,28 @@ class The < Article
   end
 end
 
+# binding.pry
+# puts 'Done'
 
-# --------------- Say Stuff! ---------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # --------------- Say Stuff! ---------------------------------------------------
 
 # def para (text)
 #   puts "\n#{text}\n"
